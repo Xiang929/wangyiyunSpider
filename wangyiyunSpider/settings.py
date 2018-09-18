@@ -40,22 +40,27 @@ NEWSPIDER_MODULE = 'wangyiyunSpider.spiders'
 
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
-  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-  'Accept-Language': 'en',
-  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.183 Safari/537.36 Vivaldi/1.96.1147.42'
+    'Host': 'music.163.com',
+    'Proxy-Connection': 'keep-alive',
+    'Origin': 'http://music.163.com',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Accept': '*/*',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'zh-CN,zh;q=0.8'
 }
 
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'wangyiyunSpider.middlewares.WangyiyunspiderSpiderMiddleware': 543,
-#}
+# SPIDER_MIDDLEWARES = {
+#     'wangyiyunSpider.middlewares.ProxyMiddleware': 543,
+# }
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'wangyiyunSpider.middlewares.WangyiyunspiderDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    'wangyiyunSpider.middlewares.ProxyMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -67,6 +72,7 @@ DEFAULT_REQUEST_HEADERS = {
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'wangyiyunSpider.pipelines.MongoPipeline': 300,
+   'scrapy_redis.pipelines.RedisPipeline': 301
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -91,3 +97,14 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 MONGO_URI = 'localhost'
 MONGO_DATABASE = 'wangyiyunComments'
+
+# Enables scheduling storing requests queue in redis.
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+
+# Ensure all spiders share same duplicates filter through redis.
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+REDIS_URL = 'redis://:weareyoung@47.94.107.119:6379'
+
+PROXY_URL = 'http://47.94.107.119:5555/random'
+
+RETRY_HTTP_CODES = [401, 403, 408, 414, 500, 502, 503, 504]

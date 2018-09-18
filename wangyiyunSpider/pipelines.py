@@ -6,6 +6,7 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import pymongo
 
+
 class MongoPipeline(object):
     collection_name = 'comments'
 
@@ -29,5 +30,5 @@ class MongoPipeline(object):
 
     def process_item(self, item, spider):
         self.db[self.collection_name].update(
-            {'comments': item['content']}, dict(item), True)
+            {'content': item['content']}, {'$set': item}, True)
         return item

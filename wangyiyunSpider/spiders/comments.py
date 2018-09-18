@@ -9,18 +9,18 @@ class CommentsSpider(scrapy.Spider):
     name = 'comments'
     allowed_domains = ['https://music.163.com']
     start_urls = [
-        'http://http://music.163.com/api/v1/resource/comments/R_SO_4_31445772/']
+        'http://music.163.com/api/v1/resource/comments/R_SO_4_31445772/']
 
     limit = 20
     offset = 0
-    total_pages = 16641
-    song_id = 31445772
+    total_pages = 12581
+    song_id = 571338279
 
     comment_url = 'http://music.163.com/api/v1/resource/comments/R_SO_4_' + \
-        str(song_id) + '/?limit={limit}&offset={offset}'
+                  str(song_id) + '/?limit={limit}&offset={offset}'
 
     def start_requests(self):
-        while(self.offset <= self.total_pages * 20):
+        while (self.offset <= self.total_pages * 20):
             yield Request(self.comment_url.format(limit=self.limit, offset=self.offset), self.parse_comments)
             self.offset += 20
 
