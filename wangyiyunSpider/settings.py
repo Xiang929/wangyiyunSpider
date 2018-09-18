@@ -95,7 +95,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-MONGO_URI = 'localhost'
+MONGO_URI = ''
 MONGO_DATABASE = 'wangyiyunComments'
 
 # Enables scheduling storing requests queue in redis.
@@ -103,8 +103,8 @@ SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 
 # Ensure all spiders share same duplicates filter through redis.
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
-REDIS_URL = 'redis://:weareyoung@47.94.107.119:6379'
+REDIS_URL = ''
 
-PROXY_URL = 'http://47.94.107.119:5555/random'
+PROXY_URL = ''
 
 RETRY_HTTP_CODES = [401, 403, 408, 414, 500, 502, 503, 504]
