@@ -24,11 +24,15 @@ class MongoPipeline(object):
     def open_spider(self, spider):
         self.client = pymongo.MongoClient(self.mongo_uri)
         self.db = self.client[self.mongo_db]
+        self.collection = self.db[self.collection_name]
 
     def close_spider(self, spider):
         self.client.close()
 
     def process_item(self, item, spider):
-        self.db[self.collection_name].update(
-            {'content': item['content']}, {'$set': item}, True)
-        return item
+        try:
+            self.collection.insert(dict(item))
+            return item
+        except pymongo.errors.DuplicateKeyError:
+            spider.logger.debug('duplicate key error collection')
+            return item
